@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="generisches.lab.noteekeeper.NoteActivity">
+    <item
+        android:id="@+id/action_cancel"
+        android:icon="@android:drawable/ic_menu_revert"
+        android:title="Cancel"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/action_next"
+        android:icon="@drawable/ic_navigate_next"
+        android:orderInCategory="100"
+        android:title="Next"
+        android:visible="false"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/action_send_email"
+        android:orderInCategory="101"
+        android:title="Send as Email"
+        app:showAsAction="never" />
+</menu>
