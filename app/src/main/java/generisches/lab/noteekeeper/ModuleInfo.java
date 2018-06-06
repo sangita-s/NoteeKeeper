@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Jim.
+ * Created by .
  */
 
 public final class ModuleInfo implements Parcelable{

@@ -10,7 +10,7 @@ import generisches.lab.noteekeeper.NoteKeeperDatabaseContract.CourseInfoEntry;
 import generisches.lab.noteekeeper.NoteKeeperDatabaseContract.NoteInfoEntry;
 
 /**
- * Created by Jim.
+ * Created by .
  */
 
 public class DataManager {
@@ -22,8 +22,6 @@ public class DataManager {
     public static DataManager getInstance() {
         if(ourInstance == null) {
             ourInstance = new DataManager();
-//            ourInstance.initializeCourses();
-//            ourInstance.initializeExampleNotes();
         }
         return ourInstance;
     }
@@ -89,7 +87,7 @@ public class DataManager {
     }
 
     public String getCurrentUserEmail() {
-        return "jimw@jwhh.com";
+        return "s@s.com";
     }
 
     public List<NoteInfo> getNotes() {
@@ -257,6 +255,4 @@ public class DataManager {
 
         return new CourseInfo("java_core", "Java Fundamentals: The Core Platform", modules);
     }
-    //endregion
-
 }

@@ -78,7 +78,6 @@ public class NoteRecyclerAdapter extends RecyclerView.Adapter<NoteRecyclerAdapte
         public final TextView mTextTitle;
         public int mId;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
             mTextCourse = itemView.findViewById(R.id.text_course);

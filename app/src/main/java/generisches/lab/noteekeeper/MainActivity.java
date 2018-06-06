@@ -79,13 +79,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        loadNotes();
-
         getLoaderManager().restartLoader(LOADER_NOTES, null, this);
-
         updateNavHeader();
     }
-
+    @Override
+    protected void onDestroy() {
+        mDbOpenHelper.close();
+        super.onDestroy();
+    }
     private void loadNotes() {
         SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
         final String[] noteColumns = {
@@ -97,13 +98,6 @@ public class MainActivity extends AppCompatActivity
                 null, null, null, null, noteOrderBy);
         mNoteRecyclerAdapter.changeCursor(noteCursor);
     }
-
-    @Override
-    protected void onDestroy() {
-        mDbOpenHelper.close();
-        super.onDestroy();
-    }
-
     private void updateNavHeader() {
         NavigationView lNavigationView = findViewById(R.id.nav_view);
         View headerView = lNavigationView.getHeaderView(0);
@@ -151,8 +145,6 @@ public class MainActivity extends AppCompatActivity
         mRecyclerItems.setLayoutManager(mNotesLayoutManager);
         mRecyclerItems.setAdapter(mNoteRecyclerAdapter);
 
-        //SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
-
         selectNavigationMenuItem(R.id.nav_notes);
     }
 
@@ -175,12 +167,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
@@ -192,7 +180,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_notes) {
@@ -213,7 +200,8 @@ public class MainActivity extends AppCompatActivity
     private void handleShare() {
         View view = findViewById(R.id.list_items);
         Snackbar.make(view, "Share to - " +
-                PreferenceManager.getDefaultSharedPreferences(this).getString("user_favourite_social", ""),
+                PreferenceManager.getDefaultSharedPreferences(this)
+                        .getString("user_favourite_social", ""),
                 Snackbar.LENGTH_SHORT).show();
     }
 
@@ -226,10 +214,6 @@ public class MainActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader loader = null;
         if(id == LOADER_NOTES) {
-//            loader = new CursorLoader(this) {
-//                @Override
-//                public Cursor loadInBackground() {
-//                    SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
                     final String[] noteColumns = {
                             NoteKeeperProviderContract.Notes._ID,
                             NoteKeeperProviderContract.Notes.COLUMN_NOTE_TITLE,
@@ -239,21 +223,10 @@ public class MainActivity extends AppCompatActivity
                     final String noteOrderBy = NoteKeeperProviderContract.Notes.COLUMN_COURSE_TITLE +
                             "," + NoteKeeperProviderContract.Notes.COLUMN_NOTE_TITLE;
 
-//                    //note_info JOIN course_info ON note_info.course_id = course_info.course_id
-//                    String tablesWithJoin = NoteInfoEntry.TABLE_NAME + " JOIN " +
-//                            CourseInfoEntry.TABLE_NAME + " ON " +
-//                            NoteInfoEntry.getQName(NoteInfoEntry.COLUMN_COURSE_ID) + " = " +
-//                            CourseInfoEntry.getQName(CourseInfoEntry.COLUMN_COURSE_ID);
-//                    return db.query(tablesWithJoin, noteColumns,
-//                            null, null, null, null, noteOrderBy);
-//                }
-//            };
             loader = new CursorLoader(this, NoteKeeperProviderContract.Notes.CONTENT_EXPANDED_URI,
                     noteColumns, null, null, noteOrderBy);
-
         }
         return loader;
-
     }
 
     @Override
