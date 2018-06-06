@@ -19,4 +19,9 @@
         android:orderInCategory="101"
         android:title="Send as Email"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_set_reminder"
+        android:icon="@android:drawable/ic_lock_idle_alarm"
+        android:title="Set Reminder"
+        app:showAsAction="ifRoom" />
 </menu>

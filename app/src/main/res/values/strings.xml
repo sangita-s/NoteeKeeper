@@ -88,7 +88,7 @@
     <string name="pref_title_email_address">Email Address</string>
     <string name="pref_default_email_address">yourname@yourhost.com</string>
     <string name="pref_title_favourite_social">Favourite Social Network</string>
-    
+
     <string-array name="pref_entries_favourite_social">
         <item>Google+</item>
         <item>Facebook</item>
@@ -101,5 +101,17 @@
     </string-array>
     <string name="pref_default_favourite_social">
         http://plus.google.com
+    </string>
+
+    <string name="note_reminder_notification_title_template">Note reminder: %1$s</string>
+
+    <!-- TODO: remove this placeholder text -->
+    <string name="note_reminder_notification_placeholder_text_template">You said %1$s and lorem
+        ipsum dolor sit amet, consectetur adipiscing elit. Etiam non enim magna. Morbi dictum, velit
+        vel semper venenatis, magna odio volutpat velit, at ullamcorper nulla lacus sed turpis.
+        Pellentesque vitae metus elit, nec tincidunt tellus. Integer sed nisl sem, ullamcorper
+        ornare lacus. Duis ac mauris sed massa congue volutpat. Donec sed erat sit amet turpis
+        viverra rhoncus sit amet nec magna. Donec lacinia ligula at libero volutpat volutpat nec nec
+        tortor.
     </string>
 </resources>
