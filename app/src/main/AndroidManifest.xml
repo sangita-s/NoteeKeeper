@@ -29,6 +29,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="generisches.lab.noteekeeper.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".NoteKeeperProvider"
+            android:authorities="generisches.lab.noteekeeper.provider"
+            android:enabled="true"
+            android:exported="true"></provider>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import android.widget.Spinner;
 
 import generisches.lab.noteekeeper.NoteKeeperDatabaseContract.CourseInfoEntry;
 import generisches.lab.noteekeeper.NoteKeeperDatabaseContract.NoteInfoEntry;
+import generisches.lab.noteekeeper.NoteKeeperProviderContract.Courses;
 
 public class NoteActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>{
@@ -72,7 +74,7 @@ public class NoteActivity extends AppCompatActivity implements
 
         readDisplayStateValues();
         if (savedInstanceState == null) {
-            //saveOriginalNoteValues();
+            saveOriginalNoteValues();
         } else {
             //restoreOriginalNoteValues(savedInstanceState);
         }
@@ -340,18 +342,27 @@ public class NoteActivity extends AppCompatActivity implements
 
     private CursorLoader createLoaderCourses() {
         mCoursesQueryFinished = false;
-        return new CursorLoader(this){
-            @Override
-            public Cursor loadInBackground() {
-                SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
-                String[] courseColumns = {
-                        CourseInfoEntry.COLUMN_COURSE_TITLE,
-                        CourseInfoEntry.COLUMN_COURSE_ID,
-                        CourseInfoEntry._ID};
-                return db.query(CourseInfoEntry.TABLE_NAME, courseColumns,
-                        null, null, null,null,CourseInfoEntry.COLUMN_COURSE_TITLE);
-            }
-        };
+
+        Uri uri = Courses.CONTENT_URI;
+        String[] courseColumns = {
+                Courses.COLUMN_COURSE_TITLE,
+                Courses.COLUMN_COURSE_ID,
+                Courses._ID};
+        return new CursorLoader(this, uri, courseColumns, null, null,
+                Courses.COLUMN_COURSE_TITLE);
+
+//        return new CursorLoader(this){
+//            @Override
+//            public Cursor loadInBackground() {
+//                SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
+//                String[] courseColumns = {
+//                        CourseInfoEntry.COLUMN_COURSE_TITLE,
+//                        CourseInfoEntry.COLUMN_COURSE_ID,
+//                        CourseInfoEntry._ID};
+//                return db.query(CourseInfoEntry.TABLE_NAME, courseColumns,
+//                        null, null, null,null,CourseInfoEntry.COLUMN_COURSE_TITLE);
+//            }
+//        };
     }
 
     private CursorLoader createLoaderNotes() {

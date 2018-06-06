@@ -226,28 +226,31 @@ public class MainActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader loader = null;
         if(id == LOADER_NOTES) {
-            loader = new CursorLoader(this) {
-                @Override
-                public Cursor loadInBackground() {
-                    SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
+//            loader = new CursorLoader(this) {
+//                @Override
+//                public Cursor loadInBackground() {
+//                    SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
                     final String[] noteColumns = {
-                            NoteInfoEntry.getQName(NoteInfoEntry._ID),
-                            NoteInfoEntry.COLUMN_NOTE_TITLE,
-                            CourseInfoEntry.COLUMN_COURSE_TITLE
+                            NoteKeeperProviderContract.Notes._ID,
+                            NoteKeeperProviderContract.Notes.COLUMN_NOTE_TITLE,
+                            NoteKeeperProviderContract.Notes.COLUMN_COURSE_TITLE
                     };
 
-                    final String noteOrderBy = CourseInfoEntry.COLUMN_COURSE_TITLE +
-                            "," + NoteInfoEntry.COLUMN_NOTE_TITLE;
+                    final String noteOrderBy = NoteKeeperProviderContract.Notes.COLUMN_COURSE_TITLE +
+                            "," + NoteKeeperProviderContract.Notes.COLUMN_NOTE_TITLE;
 
-                    //note_info JOIN course_info ON note_info.course_id = course_info.course_id
-                    String tablesWithJoin = NoteInfoEntry.TABLE_NAME + " JOIN " +
-                            CourseInfoEntry.TABLE_NAME + " ON " +
-                            NoteInfoEntry.getQName(NoteInfoEntry.COLUMN_COURSE_ID) + " = " +
-                            CourseInfoEntry.getQName(CourseInfoEntry.COLUMN_COURSE_ID);
-                    return db.query(tablesWithJoin, noteColumns,
-                            null, null, null, null, noteOrderBy);
-                }
-            };
+//                    //note_info JOIN course_info ON note_info.course_id = course_info.course_id
+//                    String tablesWithJoin = NoteInfoEntry.TABLE_NAME + " JOIN " +
+//                            CourseInfoEntry.TABLE_NAME + " ON " +
+//                            NoteInfoEntry.getQName(NoteInfoEntry.COLUMN_COURSE_ID) + " = " +
+//                            CourseInfoEntry.getQName(CourseInfoEntry.COLUMN_COURSE_ID);
+//                    return db.query(tablesWithJoin, noteColumns,
+//                            null, null, null, null, noteOrderBy);
+//                }
+//            };
+            loader = new CursorLoader(this, NoteKeeperProviderContract.Notes.CONTENT_EXPANDED_URI,
+                    noteColumns, null, null, noteOrderBy);
+
         }
         return loader;
 
