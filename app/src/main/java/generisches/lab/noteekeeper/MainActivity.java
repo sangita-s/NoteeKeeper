@@ -1,6 +1,9 @@
 package generisches.lab.noteekeeper;
 
 import android.app.LoaderManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -8,12 +11,17 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.PersistableBundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +42,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         LoaderManager.LoaderCallbacks<Cursor>  {
 
+    public static final int NOTE_UPLOADER_JOB_ID = 1;
     private NoteRecyclerAdapter mNoteRecyclerAdapter;
     private RecyclerView mRecyclerItems;
     private LinearLayoutManager mNotesLayoutManager;
@@ -48,6 +57,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        enableStrictMode();
 
         //Just this instance is not costly
         mDbOpenHelper = new NoteKeeperOpenHelper(this);
@@ -76,12 +87,42 @@ public class MainActivity extends AppCompatActivity
 
         initializeDisplayContent();
     }
+
+    private void enableStrictMode() {
+        if(BuildConfig.DEBUG){
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork()
+                    .detectAll()
+                    .penaltyLog()
+                    .build();
+
+            StrictMode.setThreadPolicy(policy);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         getLoaderManager().restartLoader(LOADER_NOTES, null, this);
         updateNavHeader();
+
+        openDrawer();
     }
+
+    private void openDrawer() {
+        //Handler to delay opening
+        Handler h = new Handler(Looper.getMainLooper());
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DrawerLayout d = findViewById(R.id.drawer_layout);
+                d.openDrawer(Gravity.START);
+            }
+        },1000);
+    }
+
     @Override
     protected void onDestroy() {
         mDbOpenHelper.close();
@@ -173,8 +214,33 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
+        else if(id == R.id.action_backup){
+            Intent i = new Intent(this, NoteBackupService.class);
+            i.putExtra(NoteBackupService.EXTRA_COURSE_ID, NoteBackup.ALL_COURSES);
+            startService(i);
+        }
+        else if(id == R.id.action_upload){
+            scheduleNoteUpload();
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void scheduleNoteUpload() {
+
+        PersistableBundle extras = new PersistableBundle();
+        extras.putString(NoteUploaderJobService.EXTRA_DATA_URI,
+                NoteKeeperProviderContract.Notes.CONTENT_URI.toString());
+
+        ComponentName lComponentName = new ComponentName(this, NoteUploaderJobService.class);
+        JobInfo lJobInfo = new JobInfo.Builder(NOTE_UPLOADER_JOB_ID, lComponentName)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setExtras(extras)
+                //goes to job start in service
+                .build();
+
+        JobScheduler lJobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        lJobScheduler.schedule(lJobInfo);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

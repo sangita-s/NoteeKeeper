@@ -11,12 +11,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
@@ -188,15 +191,63 @@ public class NoteActivity extends AppCompatActivity implements
     }
 
     private void createNewNote() {
-        //TODO: Use a separate thread for getContentResolver
+
+        AsyncTask<ContentValues, Integer, Uri> task = new AsyncTask<ContentValues, Integer, Uri>() {
+            private ProgressBar mProgressBar;
+
+            @Override
+            protected void onPreExecute() {
+                mProgressBar = findViewById(R.id.progress_bar);
+                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setProgress(1);
+            }
+
+            @Override
+            protected Uri doInBackground(ContentValues... contentValues) {
+                Log.d(TAG, "do in bg - " + Thread.currentThread().getId());
+                ContentValues insertValues = contentValues[0];
+                Uri rowUri = getContentResolver().insert(NoteKeeperProviderContract.Notes.CONTENT_URI, insertValues);
+                simulateLongRunningWork();
+                publishProgress(2);
+                simulateLongRunningWork();
+                publishProgress(3);
+                return rowUri;//goes to onpostexecute
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                int progressValue = values[0];
+                mProgressBar.setProgress(progressValue);
+            }
+
+            @Override
+            protected void onPostExecute(Uri uri) {
+                Log.d(TAG, "Post exec - " + Thread.currentThread().getId());
+                mNoteUri = uri;
+                displaySnackbar(mNoteUri.toString());
+                mProgressBar.setVisibility(View.INVISIBLE);
+            }
+        };
+
         ContentValues values = new ContentValues();
         values.put(NoteKeeperProviderContract.Notes.COLUMN_COURSE_ID, "");
         values.put(NoteKeeperProviderContract.Notes.COLUMN_NOTE_TITLE, "");
         values.put(NoteKeeperProviderContract.Notes.COLUMN_NOTE_TEXT, "");
 
-        mNoteUri = getContentResolver().insert(NoteKeeperProviderContract.Notes.CONTENT_URI, values);
+        Log.d(TAG, "Call to thread - " + Thread.currentThread().getId());
+        task.execute(values);
     }
 
+    private void displaySnackbar(String s) {
+        View v = findViewById(R.id.spinner_courses);
+        Snackbar.make(v, s, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void simulateLongRunningWork() {
+        try {
+            Thread.sleep(2000);
+        } catch(Exception ex) {}
+    }
 
     @Override
     protected void onPause() {

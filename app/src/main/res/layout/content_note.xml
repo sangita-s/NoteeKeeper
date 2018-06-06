@@ -9,6 +9,19 @@
     android:paddingBottom="16dp"
     tools:showIn="@layout/activity_note">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:max="3"
+        app:layout_constraintBottom_toTopOf="@id/spinner_courses"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
+
     <Spinner
         android:id="@+id/spinner_courses"
         android:layout_width="0dp"
@@ -22,7 +35,7 @@
         app:layout_constraintBottom_toTopOf="@+id/text_note_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/progress_bar" />
 
     <EditText
         android:id="@+id/text_note_title"
