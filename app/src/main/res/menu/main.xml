@@ -10,12 +10,12 @@
         android:id="@+id/action_backup"
         android:icon="@android:drawable/ic_popup_sync"
         android:orderInCategory="100"
-        android:title="BackUp"
+        android:title="@string/menu_backup"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_upload"
         android:icon="@android:drawable/ic_menu_upload"
         android:orderInCategory="150"
-        android:title="Upload"
+        android:title="@string/menu_upload"
         app:showAsAction="ifRoom" />
 </menu>

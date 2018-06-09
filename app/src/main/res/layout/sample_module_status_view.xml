@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/generisches.lab.noteekeeper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <generisches.lab.noteekeeper.ModuleStatusView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="#ccc"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        />
+
+</FrameLayout>

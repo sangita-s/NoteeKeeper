@@ -10,19 +10,19 @@ public class DataManagerTest {
     static DataManager sDataManager;
 
     @BeforeClass
-    public static void classSetUp() throws Exception{
+    public static void classSetUp() {
         sDataManager = DataManager.getInstance();
     }
 
     @Before
-    public void setup() throws Exception{
+    public void setup() {
         //final DataManager dm = DataManager.getInstance();
         sDataManager.getNotes().clear();
         sDataManager.initializeExampleNotes();
     }
 
     @Test
-    public void createNewNote() throws Exception{
+    public void createNewNote() {
         //final DataManager dm = DataManager.getInstance();
         final CourseInfo course = sDataManager.getCourse("android_async");
         final String noteTitle = "Test Note Titlee";
@@ -42,7 +42,7 @@ public class DataManagerTest {
     }
 
     @Test
-    public void findSimilarNotes() throws Exception{
+    public void findSimilarNotes() {
         //final DataManager dm = DataManager.getInstance();
         final CourseInfo course = sDataManager.getCourse("android_async");
         final String noteTitle1 = "Test Note Title1";

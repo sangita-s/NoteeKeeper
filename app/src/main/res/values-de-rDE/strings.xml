@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hinweis Keeper</string>
+    <string name="action_settings">Einstellung</string>
+    <string name="title_activity_note_list">Notizliste</string>
+    <string name="nav_share_msg">Teilen</string>
+    <string name="note_title_hint">Hinweis Titel</string>
+    <string name="note_text_hint">Hinweis Text</string>
+    <string name="navig_menu_notes_name">Notiz</string>
+    <string name="navig_menu_courses">Kurse</string>
+    <string name="navig_menu_communicate">Kommunizieren</string>
+</resources>

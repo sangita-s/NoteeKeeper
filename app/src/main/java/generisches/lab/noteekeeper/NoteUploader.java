@@ -1,10 +1,8 @@
 package generisches.lab.noteekeeper;
 
-import android.app.job.JobParameters;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import generisches.lab.noteekeeper.NoteKeeperProviderContract.Notes;

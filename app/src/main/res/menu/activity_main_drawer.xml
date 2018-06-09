@@ -8,24 +8,24 @@
             android:id="@+id/nav_notes"
             android:icon="@drawable/ic_assignment_black_24dp"
             android:iconTint="@color/pluralsight_orange"
-            android:title="Notes" />
+            android:title="@string/navig_menu_notes_name" />
         <item
             android:id="@+id/nav_courses"
             android:icon="@drawable/ic_slideshow_black_24dp"
             android:iconTint="@color/pluralsight_orange"
-            android:title="Courses" />
+            android:title="@string/navig_menu_courses" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/navig_menu_communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/navig_menu_share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="@string/navig_menu_send" />
         </menu>
     </item>
 

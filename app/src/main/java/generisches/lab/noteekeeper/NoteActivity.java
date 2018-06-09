@@ -52,6 +52,7 @@ public class NoteActivity extends AppCompatActivity implements
     public static final String ORIGINAL_NOTE_COURSE_ID = "generisches.lab.noteekeeper.ORIGINAL_NOTE_COURSE_ID";
     public static final String ORIGINAL_NOTE_TITLE = "generisches.lab.noteekeeper.ORIGINAL_NOTE_TITLE";
     public static final String ORIGINAL_NOTE_TEXT = "generisches.lab.noteekeeper.ORIGINAL_NOTE_TEXT";
+    public static final String NOTE_URI = "generisches.lab.noteekeeper.NOTE_URI";
     private NoteKeeperOpenHelper mDbOpenHelper;
     private Cursor mNoteCursor;
     private int mCourseIdPos;
@@ -61,14 +62,15 @@ public class NoteActivity extends AppCompatActivity implements
     private boolean mCoursesQueryFinished;
     private boolean mNotesQueryFinished;
     private Uri mNoteUri;
+    private ModuleStatusView mViewModuleStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mSpinnerCourses = (Spinner) findViewById(R.id.spinner_courses);
+        mSpinnerCourses = findViewById(R.id.spinner_courses);
 
         mDbOpenHelper = new NoteKeeperOpenHelper(this);
 
@@ -85,6 +87,8 @@ public class NoteActivity extends AppCompatActivity implements
             saveOriginalNoteValues();
         } else {
             restoreOriginalNoteValues(savedInstanceState);
+            String stringNoteUri = savedInstanceState.getString(NOTE_URI);
+            mNoteUri = Uri.parse(stringNoteUri);
         }
 
         mTextNoteTitle = findViewById(R.id.text_note_title);
@@ -94,7 +98,21 @@ public class NoteActivity extends AppCompatActivity implements
             //this  - to comeback to this class
             getLoaderManager().initLoader(LOADER_NOTES, null, this);
         }
+        mViewModuleStatus = findViewById(R.id.module_status);
+        loadModuleStatusValues();
         Log.e(TAG, "OnCreate");
+    }
+
+    private void loadModuleStatusValues() {
+        //look up val from content provider
+        int totalNoOfModules = 11;
+        int completedNoOfVariables = 7;
+        boolean[] moduleStatus = new boolean[totalNoOfModules];
+        for(int moduleIndex = 0; moduleIndex < completedNoOfVariables; moduleIndex++){
+            moduleStatus[moduleIndex] = true;
+        }
+
+        mViewModuleStatus.setModuleStatus(moduleStatus);
     }
 
     private void loadCourseData() {
@@ -297,6 +315,8 @@ public class NoteActivity extends AppCompatActivity implements
         outState.putString(ORIGINAL_NOTE_COURSE_ID, mOriginalNoteCourseId);
         outState.putString(ORIGINAL_NOTE_TITLE, mMOriginalNoteTitle);
         outState.putString(ORIGINAL_NOTE_TEXT, mMOriginalNoteText);
+
+        outState.putString(NOTE_URI, mNoteUri.toString());
     }
 
     private void saveNote() {

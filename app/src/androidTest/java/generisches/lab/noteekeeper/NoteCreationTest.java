@@ -13,14 +13,13 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class NoteCreationTest {
     static DataManager sDataManager;
 
     @BeforeClass
-    public static void classSetUp() throws Exception{
+    public static void classSetUp() {
         sDataManager = DataManager.getInstance();
     }
     @Rule

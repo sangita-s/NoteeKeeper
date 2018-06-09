@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ノート置場</string>
+    <string name="action_settings">設定</string>
+    <string name="title_activity_note_list">メモリスト</string>
+    <string name="nav_share_msg">送る</string>
+    <string name="note_title_hint">メモタイトル</string>
+    <string name="note_text_hint">メモテクスト</string>
+    <string name="navig_menu_notes_name">メモ</string>
+    <string name="navig_menu_courses">コース</string>
+    <string name="navig_menu_communicate">コミュニケーション</string>
+</resources>

@@ -5,23 +5,23 @@
     <item
         android:id="@+id/action_cancel"
         android:icon="@android:drawable/ic_menu_revert"
-        android:title="Cancel"
+        android:title="@string/menu_cancel"
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/action_next"
         android:icon="@drawable/ic_navigate_next"
         android:orderInCategory="100"
-        android:title="Next"
+        android:title="@string/menu_next"
         android:visible="false"
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/action_send_email"
         android:orderInCategory="101"
-        android:title="Send as Email"
+        android:title="@string/menu_send_as_email"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_set_reminder"
         android:icon="@android:drawable/ic_lock_idle_alarm"
-        android:title="Set Reminder"
+        android:title="@string/menu_set_reminder"
         app:showAsAction="ifRoom" />
 </menu>

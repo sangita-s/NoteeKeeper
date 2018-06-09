@@ -10,16 +10,16 @@ public final class NoteKeeperProviderContract {
     public static final Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
 
     protected interface CoursesIdColumns {
-        public static final String COLUMN_COURSE_ID = "course_id";
+        String COLUMN_COURSE_ID = "course_id";
     }
 
     protected interface CourseColumns{
-        public static final String COLUMN_COURSE_TITLE = "course_title";
+        String COLUMN_COURSE_TITLE = "course_title";
     }
 
     protected interface NotesColumns{
-        public static final String COLUMN_NOTE_TITLE = "note_title";
-        public static final String COLUMN_NOTE_TEXT = "note_text";
+        String COLUMN_NOTE_TITLE = "note_title";
+        String COLUMN_NOTE_TEXT = "note_text";
     }
 
     public static final class Courses implements BaseColumns, CoursesIdColumns, CourseColumns{
