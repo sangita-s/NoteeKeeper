@@ -124,4 +124,5 @@
     <string name="menu_upload">Upload</string>
     <string name="clipboard_content_desc">clipBoard</string>
     <string name="content_desc_slide">slide</string>
+    <string name="fab_desc_addnote">Create new note</string>
 </resources>
